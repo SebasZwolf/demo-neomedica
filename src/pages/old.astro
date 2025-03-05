@@ -1,0 +1,166 @@
+---
+import Container from "#ly/Container.astro";
+import Layout from "#ly/Layout.astro";
+import { config } from "#ut/const.ts";
+
+const links = [
+	{ label: "Inicio", href: "#" },
+	{ label: "Nosotros" },
+	{ label: "Servicios" },
+	{ label: "Profesionales" },
+	{ label: "Blog" },
+	{ label: "Contacto" },
+];
+
+const contact = {
+	phone: ["989046102", "4478085"],
+	email: "info@neomedicaperu.com",
+};
+
+const socials = Array(4).fill("");
+
+const cta =
+	"https://api.whatsapp.com/send?phone=51989046102&text=hola,%20deseo%20agendar%20una%20cita";
+---
+
+<Layout>
+	<div id="body-wrapper">
+		<header class="sticky -top-10" >
+			<Container>
+				<div class="flex py-2 bg-white">
+					<address class="flex gap-1 not-italic text-sm items-end">
+						<p class="h-fit leading-none">
+							<span class="font-semibold">telefono: </span>
+							{contact.phone.join(" - ")}
+						</p>
+						<p class="h-fit leading-none">
+							<span class="font-semibold">correo: </span>
+							{contact.email}
+						</p>
+					</address>
+					<ul class="ml-auto flex gap-1 self-end">
+						{
+							socials.map((e) => (
+								<li>
+									<a class="block size-6 content-center text-center bg-black/5 hover:bg-black/15 rounded" href="#"></a>
+								</li>
+							))
+						}
+					</ul>
+				</div>
+			</Container>
+			<Container>
+				<nav class="flex gap-1 py-2" style="background-image: linear-gradient(135deg, white 25%, var(--business-lime-0) 45%);">
+					<a href="/" class="block">
+						<div class="h-12 w-fit">
+							<img
+								class="max-h-full w-auto"
+								src="https://www.neomedicaperu.com/assets/logo.png"
+							/>
+						</div>
+					</a>
+					<ul class="flex gap-1 ml-auto w-fit self-center text-bblue-1">
+						{ links.map((e) =>  <li><a class="block p-1 hover:underline underline-offset-4" href={e.href ?? "#"}>{e.label}</a></li>) }
+						<li><a class="block px-4 py-1 rounded bg-bblue-1 text-white hover:bg-blime-2" href={cta}>Obten una cita!</a></li>
+					</ul>
+				</nav>
+				<div class="bg-blime-0 h-full" style="grid-column-start: 4; grid-column-end: bleed;">
+
+				</div>
+			</Container>
+		</header>
+		<main class="h-screen">
+			<h1 class="sr-only">Página principal de {config.name}</h1>
+			<Container>
+				<section data-container class="bg-black/5">
+					<div class="md:aspect-video border bg-black/5 max-md:h-[calc(100vh-8rem)] grid grid-cols-12 gap-1" style="grid-column: content;">
+						
+						<div class="self-center col-span-8 col-start-2">
+							<p class="my-6 w-fit text-3xl font-semibold tracking-widest text-center text-bblue-0">TERAPIA FÍSICA Y<br><span class="text-bblue-2 font-bold">REHABILITACIÓN</span></p>
+							<a class="w-fit block px-4 py-1 text-xl rounded-full bg-blime-0 text-white hover:bg-blime-2 tabular-nums font-semibold" href={cta}>+51{contact.phone[0]}</a>
+							<p class="text-bblue-1 text-xl font-semibold px-4">reserva tu cita</p>
+						</div>
+					</div>
+				</section>
+				<section></section>
+				<section></section>
+			</Container>
+		</main>
+		<footer class="mt-auto bg-bblue-2 py-12 text-white" style="">
+			<h2 class="sr-only">Información general</h2>
+			<Container>
+				<div class="flex max-md:flex-col md:gap-6 gap-2 max-md:px-8">
+					<section class="flex-1 pr-6">
+						<div class="">
+							<img class="h-8 w-auto" src="https://www.neomedicaperu.com/assets/logo.png"/>
+						</div>
+						<p class="my-2 text-sm">
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae
+							necessitatibus, consequatur numquam corporis dignissimos facilis
+							obcaecati saepe dolorem similique et, est porro recusandae
+							accusantium doloribus praesentium ipsum eligendi, vel aspernatur?
+						</p>
+						<ul class="ml-auto flex gap-4">
+							{
+								socials.map((e) => (
+									<li>
+										<a
+											class="block size-6 content-center text-center bg-white/15 hover:bg-white/50 rounded"
+											href="#"
+										></a>
+									</li>
+								))
+							}
+						</ul>
+
+					</section>
+					<section class="flex-1 pr-6">
+						<h3 class="text-blime-0 text-xl mb-4 font-semibold">Servicios</h3>
+						<ul class="pl-6 list-disc text-sm">
+							{ Array.from([
+								"CONSULTA ESPECIALIZADA EN ORTOPEDIA",
+								"PRÓTESIS DE CADERA Y RODILLA",
+								"TRATAMIENTO QUIRÚRGICO DE FRACTURAS",
+								"CONSULTA ESPECIALIZADA EN TRAUMATOLOGÍA DEPORTIVA",
+								"TERAPIA FÍSICA Y REHABILITACIÓN",
+								"VISCOSUPLEMENTACIÓN",
+								"GENÉTICA MÉDICA",
+								"CONSULTA OFTALMOLOGICA",
+								"LIBRO DE RECLAMACIONES VIRTUAL",
+							],e => <li><a href="#">{e}</a></li>) }
+						</ul>
+					</section>
+					<section class="flex-1 pr-6 block not-italic">
+						<h3 class="text-blime-0 text-xl mb-4 font-semibold">Contáctanos</h3>
+						<ul class="grid text-sm" style="grid-template-columns: 2rem 1fr">
+							<li class="grid grid-cols-subgrid col-span-2">
+								<div class="self-center justify-self-center size-2 bg-white rounded-full"></div>
+								<div>Telefonos</div>
+								<div></div>
+								<div>{contact.phone.join(' - ')}</div>
+							</li>
+							<li class="grid grid-cols-subgrid col-span-2">
+								<div class="self-center justify-self-center size-2 bg-white rounded-full"></div>
+								<div>Correo</div>
+								<div></div>
+								<div>info@neomedicaperu.com</div>
+							</li>
+							<li class="grid grid-cols-subgrid col-span-2">
+								<div class="self-center justify-self-center size-2 bg-white rounded-full"></div>
+								<div>Dirección</div>
+								<div></div>
+								<div>Av. Larco 743 of. 801, Miraflores, Lima.</div>
+							</li>
+						</ul>
+					</section>
+				</div>
+			</Container>
+		</footer>
+	</div>
+</Layout>
+
+<style is:global>
+	#body-wrapper {
+		/* @apply min-h-screen bg-black/15 flex flex-col; */
+	}
+</style>

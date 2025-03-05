@@ -1,0 +1,61 @@
+<div class="c-ly-container">
+	<slot />
+</div>
+
+<style>
+*.c-ly-container {
+	display: grid;
+	width: 100%;
+
+	grid-column: bleed;
+
+  --gap: .5rem;
+	--side : 5rem;
+
+  --full: minmax(var(--gap), 1fr);
+  --feature: minmax(0, var(--side));
+	--content : min(
+		100% - var(--gap) * 2,
+		max(
+			min(
+				100% - var(--gap) * 2 - var(--side) * 2,
+				1200px + var(--gap) * 2
+			),
+			768px
+		) - 2 * var(--gap)
+	);
+	
+	--max-width : var(--content);
+
+	row-gap : var(--gap);
+
+	grid-template-columns:
+    [bleed-start] 
+      var(--full)
+      [large-start]
+        var(--feature)
+				[content-start]
+					var(--content)
+				[content-end]
+        var(--feature)
+      [large-end]
+      var(--full)
+    [bleed-end];
+		
+	grid-auto-rows: auto;
+	align-content: start;
+}
+
+*.c-ly-container > :global(*) { grid-column: content; }
+
+*.c-ly-container > :global(*[data-column="focus"]) { grid-column: content; }
+*.c-ly-container > :global(*[data-column="bleed"]) { grid-column: bleed; }
+*.c-ly-container > :global(*[data-column="large"]) { grid-column: large; }
+*.c-ly-container > *.c-ly-container { grid-column: bleed; }
+
+*.c-ly-container > :global(section[data-container]) { 
+	grid-column: bleed;
+	display: grid;
+	grid-template-columns: subgrid;
+}
+</style>

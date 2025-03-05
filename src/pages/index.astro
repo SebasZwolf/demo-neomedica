@@ -1,16 +1,572 @@
 ---
+import Layout from "#ly/Layout.astro";
 
+import l from "#ut/links.ts";
+import Container from "#ly/Container.astro";
+
+const contact = {
+	phone: ["---------", "-------"],
+	email: "info@---.com",
+	address : "Av. --- --- of. ---, ---, ---."
+};
+
+const logo = {
+	src : "https://www.neomedicaperu.com/assets/logo.png",
+};
+
+const nombre = "Neomedica";
+
+const services = Array(6).fill({
+	href: "#",
+	text: "CONSULTA ESPECIALIZADA EN ORTOPEDIA",
+	desc: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate impedit vitae incidunt sequi? Exercitationem possimus magni culpa modi aliquid ut eum omnis rem blanditiis! Asperiores sequi tenetur voluptatem dolor laboriosam.",
+});
+
+const services_lite = [
+	"CONSULTA ESPECIALIZADA EN ORTOPEDIA",
+	"PRÓTESIS DE CADERA Y RODILLA",
+	"TRATAMIENTO QUIRÚRGICO DE FRACTURAS",
+	"CONSULTA ESPECIALIZADA EN TRAUMATOLOGÍA DEPORTIVA",
+	"TERAPIA FÍSICA Y REHABILITACIÓN",
+	"VISCOSUPLEMENTACIÓN",
+	"GENÉTICA MÉDICA",
+	"CONSULTA OFTALMOLOGICA",
+	"LIBRO DE RECLAMACIONES VIRTUAL",
+];
+
+const socials = Array(4).fill("");
+
+const buildings = [16, 11, 10, 12, 11, 10];
+const team = Array(4).fill({
+	src: "https://c8.alamy.com/comp/2X2KFJP/mexico-city-mexico-22nd-apr-2024-victor-gonzalez-the-founder-of-farmacias-similares-is-holding-a-dr-simi-doll-during-a-press-conference-to-mark-the-inauguration-of-the-second-flagship-shop-of-farmacias-similares-in-mexico-citys-zocalo-the-shop-in-addition-to-a-pharmacy-and-medical-office-is-offering-a-wide-variety-of-souvenirs-such-as-soft-toys-clothing-caps-t-shirts-sweatshirts-notebooks-lunch-boxes-and-thermoses-as-well-as-a-series-of-free-virtual-and-interactive-experiences-photo-by-gerardo-vieyranurphoto-credit-nurphoto-srlalamy-live-news-2X2KFJP.jpg",
+	href: "#",
+	name: "Dr. Simmi",
+	desc: "Mascota",
+});
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+	<header class="h-16 sticky top-0 bg-white z-10">
+		<div
+			class="border-b-4 border-b-blime-1 flex px-2 items-center h-full justify-between"
+		>
+			<div class="w-72">
+				<a href={l.home.href} class="block">
+					<div class="w-64 h-auto">
+						<img
+							class="max-h-full w-auto"
+							src={logo.src}
+						/>
+					</div>
+				</a>
+			</div>
+
+			<nav
+				class="grid grid-flow-col font-semibold h-full"
+				style="grid-auto-columns: 1fr;"
+			>
+				<a
+					class="hover:bg-blime-2 class content-center px-3 text-center"
+					href="#services">Servicios</a
+				>
+				<a
+					class="hover:bg-blime-2 class content-center px-3 text-center"
+					href="#about	">Nosotros</a
+				>
+				<a
+					class="hover:bg-blime-2 class content-center px-3 text-center"
+					href="#contact">Blog</a
+				>
+			</nav>
+
+			<div class="w-72 text-end">
+				<a
+					href="#"
+					class="bg-bblue-0 rounded text-white px-4 py-2 font-bold uppercase tracking-wide hover:bg-bblue-2 transition"
+				>
+					Haz una cita!
+				</a>
+			</div>
+		</div>
+		<address class="justify-end flex tabular-nums font-sans not-italic">
+			<div class="flex gap-2 items-center py-1 px-2 bg-blime-0 w-fit">
+				<div class="h-fit leading-none text-xs font-bold">
+					<span class="font-semibold">telefono: </span>
+					{contact.phone.join(" - ")}
+				</div>
+				<div class="h-fit leading-none text-xs font-bold">
+					<span class="font-semibold">correo: </span>
+					{contact.email}
+				</div>
+			</div>
+		</address>
+	</header>
+	<main>
+		<h1 class="sr-only" >Bienvenido a {nombre}</h1>
+		<div class="relative overflow-clip">
+			<canvas
+				id="bg-canvas"
+				class="absolute object-cover bg-gradient-to-b from-bblue-0 to-blime-0 opacity-50 top-0 -z-10"
+			></canvas>
+
+			<script is:inline type="module" defer>
+				import * as THREE from "three";
+				const canvas = document.getElementById("bg-canvas");
+
+				const scene = new THREE.Scene();
+				const camera = new THREE.OrthographicCamera(
+					-800,
+					800,
+					450,
+					-450,
+					1,
+					1000,
+				);
+				camera.position.z = 10;
+
+				const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+				renderer.setSize(1600, 900);
+
+				const shapeCount = 45;
+
+				const shapes = Array(shapeCount);
+				for (let i = 0; i < shapeCount; i++) shapes[i] = createShape(true);
+
+				animate();
+
+				function animate() {
+					requestAnimationFrame(animate);
+
+					shapes.forEach((shape) => {
+						shape.position.y += shape.speed;
+						shape.position.x += shape.direction;
+						shape.rotation.z += shape.anglerotation;
+
+						// shape.speed 		= Math.max(0.25, shape.speed - 0.005);
+						shape.direction = Math.sign(shape.position.x) * -0.15;
+
+						if (shape.position.y > 500) {
+							
+							shape.speed = Math.random() * 1.25 + 0.5;
+							shape.direction = (Math.random() - 0.5) * 0.7;
+
+							shape.rotation.z = 0;
+							shape.position.y = -450;
+							shape.position.x = Math.random() * 1500 - 750;
+						}
+					});
+
+					renderer.render(scene, camera);
+				}
+
+				function createShape(init = false) {
+					const shape = new THREE.Shape();
+
+					const points = Math.floor(Math.random() * 5) + 3;
+					const radius = Math.random() * 50 + 20; // 20-70
+					const preangle = (Math.PI * 2) / points;
+
+					for (let i = 0; i < points; i++) {
+						const angle = i * preangle;
+
+						const x = Math.cos(angle) * radius;
+						const y = Math.sin(angle) * radius;
+
+						if (i === 0) shape.moveTo(x, y);
+						else shape.lineTo(x, y);
+					}
+
+					shape.closePath();
+
+					const geometry = new THREE.ShapeGeometry(shape);
+					const material = new THREE.MeshBasicMaterial({
+						color: 0xffffff,
+						side: THREE.DoubleSide,
+					});
+					const mesh = new THREE.Mesh(geometry, material);
+
+					mesh.position.set(
+						Math.random() * 1600 - 800,
+						init ? Math.ceil(1200 * Math.random() - 300) : -500,
+						0,
+					);
+
+					mesh.speed = Math.random() * 1.25 + 0.5; //.0.5 - 1.75
+					mesh.direction = (Math.random() - 0.5) * 0.7;
+					mesh.anglerotation = (0.2 / (radius - 17)) * Math.sign(Math.random() - 0.5);
+
+					scene.add(mesh);
+					return mesh;
+				}
+			</script>
+			<svg
+				class="absolute w-full h-full border-z-10"
+				preserveAspectRatio="none"
+				viewBox="0 0 1600 900"
+				width="1600"
+				height="900"
+				style="scale: 1 -1"
+			>
+				<g class="fill-bblue-2">
+					{
+						buildings.map((h, r) => (
+							<rect
+								x="0"
+								y={r * -60 - 100}
+								width={112}
+								height={(10 + h) * 22.5}
+								style={`transform: matrix(1, +0.4, 0, 1, ${r * 122 - 112}, 0)`}
+							/>
+						))
+					}
+				</g>
+				<g class="fill-white">
+					{
+						buildings.map((h, r) => (
+							<rect
+								x="0"
+								y={r * -60 - 100}
+								width={112}
+								height={(10 + h) * 22.5}
+								style={`transform: matrix(1, -0.4, 0, 1, ${r * 122}, 45)`}
+							/>
+						))
+					}
+				</g>
+				<g class="fill-bblue-2">
+					{
+						buildings.map((h, r) => (
+							<rect
+								x="0"
+								y={r * -60 - 100}
+								width={112}
+								height={(10 + h) * 22.5}
+								style={`transform: matrix(-1, +0.4, 0, 1, ${1712 - r * 122}, 0)`}
+							/>
+						))
+					}
+				</g>
+				<g class="fill-white">
+					{
+						buildings.map((h, r) => (
+							<rect
+								x="0"
+								y={r * -60 - 100}
+								width={112}
+								height={(10 + h) * 22.5}
+								style={`transform: matrix(-1, -0.4, 0, 1, ${1600 - r * 122}, 45)`}
+							/>
+						))
+					}
+				</g>
+			</svg>
+			<section
+				class="mx-auto w-screen max-w-screen-xl aspect-video content-center text-center"
+			>
+				<h2 class="text-5xl font-bold mb-6">
+					Bienvenidos a <br />
+					<span
+						class="text-transparent bg-clip-text bg-gradient-to-tr from-bblue-0 to-blime-1 inline-block"
+						style="" >{nombre}</span
+					> Perú
+				</h2>
+				<p class="text-lg text-balance max-w-xl mx-auto mb-6">
+					Nuestro objetivo es brindar atención médica de calidad, cálida y con
+					resultados.
+				</p>
+			</section>
+		</div>
+		<Container>
+			<section
+				class="grid grid-cols-5 grid-rows-3 gap-4 my-32"
+				style="grid-auto-rows: 1fr; grid-auto-columns;: 1fr"
+			>
+				<div
+					class="col-span-3 row-span-2 bg-gradient-to-tr from-bblue-2 to-blime-1 rounded-md p-1 shadow-md shadow-black/25"
+				>
+					<div
+						class="size-full rounded bg-white content-center p-4 shadow-inner"
+					>
+						<div class="my-16">
+							<h2
+								class="text-4xl font-bold bg-gradient-to-tr from-bblue-2 to-blime-1 text-transparent bg-clip-text"
+							>
+								Nosotros
+							</h2>
+							<p class="max-w-[72ch] text-sm leading-normal my-2">
+								Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste
+								beatae ducimus nesciunt, necessitatibus neque amet dicta qui
+								possimus dolorem, consequatur maxime quas blanditiis sit
+								incidunt, quod quis excepturi sed veritatis.
+							</p>
+							<a
+								href="#"
+								class="px-2 py-1 font-semibold block rounded bg-blime-1 w-fit my-4 text-sm"
+							>
+								ver más
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="bg-blime-1 p-1 rounded-md col-start-4 col-end-6">
+					<div class="content-center p-4 bg-white rounded size-full">
+						<div class="text-center">
+							<div class="size-12 border border-black mx-auto my-2"></div>
+							<h3 class="text-2xl font-semibold my-1">Diagnóstico</h3>
+							<p class="text-sm">
+								Eu occaecat tempor in reprehenderit sit enim officia irure
+								aliquip laborum.
+							</p>
+						</div>
+					</div>
+				</div>
+
+				<div
+					class="bg-bblue-2 p-1 rounded-md col-span-2 col-start-1 row-start-3"
+				>
+					<div class="content-center p-4 bg-white rounded size-full">
+						<div class="text-center">
+							<div class="size-12 border border-black mx-auto my-2"></div>
+							<h3 class="text-2xl font-semibold my-1">Diagnóstico</h3>
+							<p class="text-sm">
+								Eu occaecat tempor in reprehenderit sit enim officia irure
+								aliquip laborum.
+							</p>
+						</div>
+					</div>
+				</div>
+
+				<div
+					class="bg-gradient-to-tr from-bblue-0 to-blime-1 p-1 rounded-md col-span-2 row-span-2 col-start-4 row-start-2"
+				>
+					<div class="size-full rounded bg-white/50 content-center">
+						<div class="text-center w-fit mx-auto">
+							<div class="size-12 border border-black mx-auto my-2"></div>
+							<h3 class="text-2xl font-semibold my-1">Atención Personal</h3>
+							<p class="text-sm max-w-72">
+								Nuestros especialistas diagnostican, tratan, informan y apoyan a
+								nuestros pacientes. ademas, son constantemente capacitados.
+							</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="bg-bblue-0 p-1 rounded-md col-start-3 row-start-3">
+					<div class="content-center p-4 bg-white rounded size-full">
+						<div class="text-center">
+							<div class="size-12 border border-black mx-auto my-2"></div>
+							<h3 class="text-2xl font-semibold my-1">Diagnóstico</h3>
+							<p class="text-sm">
+								Eu occaecat tempor in reprehenderit sit enim officia irure
+								aliquip laborum.
+							</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="grid-cols-subgrid grid" data-column="bleed">
+				<h2
+					class="text-4xl font-bold my-12 text-center"
+					style="grid-column:content"
+				>
+					Nuestros Servicios
+				</h2>
+				<ul
+					class="grid md:grid-cols-3 max-md:grid-cols-2 gap-6 justify-center items-center mx-auto"
+					style="grid-auto-columns: 1fr; grid-auto-rows: auto; grid-column:content"
+				>
+					{
+						services.map((s) => (
+							<li class="shadow-md max-w-80 text-center shadow-black/10 h-full place-self-center p-4 flex flex-col group">
+								<div class="size-16 border border-black mx-auto mb-4" />
+								<h3 class="my-2 text-xl font-semibold text-center">{s.text}</h3>
+								<div class="max-h-16 group-hover:max-h-96 duration-300 transition-all overflow-hidden opacity-75 hover:opacity-100">
+									<p class="text-black text-sm leading-normal">{s.desc}</p>
+								</div>
+
+								<hr class="mt-auto border-none mb-6" />
+								<a href={s.href} class="text-blime-1 text-center block">
+									ver más
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</section>
+			<a href="#" class="text-blime-1 text-center block my-12 font-semibold"
+				>ver todos</a
+			>
+			<h2
+				class="text-4xl font-bold my-12 text-center"
+				style="grid-column:content"
+			>
+				Nuestros Profesionales
+			</h2>
+			<div class="flex justify-center gap-6 flex-wrap">
+				{
+					team.map(({ href, name, desc, src }) => (
+						<article class="group overflow-hidden border border-black grid ">
+							<a
+								{href}
+								class="block aspect-square w-72 md:w-64 "
+								style="grid-column: 1/1; grid-row: 1/1;"
+							>
+								<img
+									{src}
+									alt={`foto perfil: ${name}, ${desc}`}
+									class="size-full object-cover top object-top group-hover:scale-110 transition-transform"
+								/>
+							</a>
+							<hgroup
+								class="h-fit self-end bg-bblue-2 p-3 translate-y-[100%] group-hover:translate-y-0 transition-transform"
+								style="grid-column: 1/1; grid-row: 1/1;"
+							>
+								<h3 class="text-white font-semibold">{name}</h3>
+								<p class="text-blime-1 text-xs">{desc}</p>
+							</hgroup>
+						</article>
+					))
+				}
+			</div>
+
+			<h2
+				class="text-4xl font-bold my-12 text-center"
+				style="grid-column:content"
+			>
+				Preguntas Frecuentes
+			</h2>
+			<div>
+				{
+					Array.from(Array(10).keys(), (e) => (
+						<details
+							class="transition-all block [&[open]+*]:border-t border border-t-0 first:border-t open:border-t border-black/15 open:shadow-md open:shadow-black/25 open:my-4 open:first:mt-0 group max-w-3xl mx-auto text-left w-full"
+							name="faq"
+						>
+							<summary class="block p-2 cursor-pointer font-semibold ">
+								Pregunta #{e}:
+							</summary>
+							<div class="block p-2">
+								<p class="max-w-[72ch] text-sm">
+									Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+									Neque esse ad nesciunt iusto minima dolore quia facere eveniet
+									provident, nobis aliquid dolor quod ab repellat soluta
+									necessitatibus. Ut, repudiandae velit!
+								</p>
+							</div>
+						</details>
+					))
+				}
+			</div>
+
+			<h2
+				class="text-4xl font-bold my-12 text-center"
+				style="grid-column:content"
+			>
+				Blog
+			</h2>
+			<div class="overflow-x-auto px-6" data-column="bleed">
+				<ul class="flex gap-6 pb-8 w-fit">
+					{
+						Array.from(Array(11).keys(), (e) => (
+							<li>
+								<article class="size-96 border relative group overflow-clip">
+									<img
+									 data-show 
+										class="size-full block object-cover"
+										src="https://cdn2.picryl.com/photo/2011/02/03/wristinvertedhistoequal-7b4df1-640.jpg"
+									/>
+									<div class="absolute w-full bottom-0 p-2 bg-white/75 translate-y-[calc(100%-2.75rem)] group-hover:translate-y-0 transition-transform">
+										<h3 class="text-xl font-bold text-bblue-2 h-8 text-nowrap overflow-hidden overflow-ellipsis">
+											tendonitis
+										</h3>
+										<p class="leading-tight my-2">
+											Lorem ipsum dolor sit amet consectetur adipisicing elit.
+											Laudantium alias totam porro animi architecto iure
+											incidunt sunt repellendus. Ullam dicta laboriosam aperiam
+											vero sapiente quisquam maxime consectetur, et eius id!
+										</p>
+										<div class="p-1">
+											<a href="#" class="text-right font-semibold px-2 ml-auto w-fit text-blime-1 block">ver más</a>
+										</div>
+									</div>
+								</article>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+		</Container>
+	</main>
+	<footer class="bg-blime-2 py-12 mt-36">
+		<h2 class="sr-only">Información general</h2>
+		<Container>
+			<div class="flex max-md:flex-col md:gap-6 gap-2 max-md:px-8">
+				<section class="flex-1 pr-6">
+					<div class="">
+						<img class="h-8 w-auto" src={logo.src}/>
+					</div>
+					<p class="my-2 text-sm">
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae
+						necessitatibus, consequatur numquam corporis dignissimos facilis
+						obcaecati saepe dolorem similique et, est porro recusandae
+						accusantium doloribus praesentium ipsum eligendi, vel aspernatur?
+					</p>
+					<ul class="ml-auto flex gap-4">
+						{
+							socials.map((e) => (
+								<li>
+									<a
+										class="block size-6 content-center text-center bg-white/15 hover:bg-white/50 rounded"
+										href="#"
+									></a>
+								</li>
+							))
+						}
+					</ul>
+
+				</section>
+				<section class="flex-1 pr-6">
+					<h3 class="text-white text-xl mb-4 font-semibold">Servicios</h3>
+					<ul class="pl-6 list-disc text-sm">
+						{ Array.from(services_lite,e => <li><a href="#">{e}</a></li>) }
+					</ul>
+				</section>
+				<section class="flex-1 pr-6 block not-italic">
+					<h3 class="text-white text-xl mb-4 font-semibold">Contáctanos</h3>
+					<ul class="grid text-sm" style="grid-template-columns: 2rem 1fr">
+						<li class="grid grid-cols-subgrid col-span-2">
+							<div class="self-center justify-self-center size-2 bg-white rounded-full"></div>
+							<div>Telefonos</div>
+							<div></div>
+							<div>{contact.phone.join(' - ')}</div>
+						</li>
+						<li class="grid grid-cols-subgrid col-span-2">
+							<div class="self-center justify-self-center size-2 bg-white rounded-full"></div>
+							<div>Correo</div>
+							<div></div>
+							<div>{contact.email}</div>
+						</li>
+						<li class="grid grid-cols-subgrid col-span-2">
+							<div class="self-center justify-self-center size-2 bg-white rounded-full"></div>
+							<div>Dirección</div>
+							<div></div>
+							<div>{contact.address}</div>
+						</li>
+					</ul>
+				</section>
+			</div>
+		</Container>
+	</footer>
+	<aside data-column="bleed" class="bg-bblue-2 p-1 text-white">
+		<p class="mx-auto w-fit text-xs" is:raw>®YYYY Todos los derechos reservados a {nombre}</p>
+	</aside>
+</Layout>
+
+
+<style is:global>
+	img[src="https://www.neomedicaperu.com/assets/logo.png"] {
+		filter: grayscale(100);
+	}
+</style>

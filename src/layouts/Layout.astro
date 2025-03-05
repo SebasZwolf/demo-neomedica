@@ -1,0 +1,53 @@
+---
+import { config } from "#ut/const.ts"
+
+import SEO from '../fragments/SEO.astro';
+
+export type Props = {
+	name? : string;
+	desc? : string;
+};
+
+const p = Astro.props;
+---
+<html lang={config.lang}>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+
+		<title>{p.name}</title>
+		<meta content={p.name} name="name"/>
+		<meta content={p.desc} name="description"/>
+
+		<SEO/>
+		
+		<script is:inline type="importmap">
+			{
+				"imports": {
+					"three": "https://cdn.jsdelivr.net/npm/three@0.174.0/build/three.module.js",
+					"three/addons/": "https://cdn.jsdelivr.net/npm/three@0.174.0/examples/jsm/"
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<slot/>
+	</body>
+</html>
+
+<style>
+	:root {
+		--business-lime-0: #a5cd37;
+		--business-lime-1: #28a745;
+		--business-lime-2: var(--business-lime-1);
+
+		--business-blue-0: var(--business-blue-1	);
+		--business-blue-1: #003a7a;
+		--business-blue-2: #122738;
+
+		--bbody-color: white;
+		--block-color: white;
+		--panel-color: white;
+	}
+</style>
